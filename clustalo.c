@@ -117,6 +117,7 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
         PyObject *value = PyString_FromString(prMSeq->seq[idx]);
         PyDict_SetItemString(returnDict, key, value);
     }
+    FreeMSeq(&prMSeq);
     return returnDict;
 }
 
