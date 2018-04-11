@@ -11,7 +11,7 @@ if not OPENMP_DISABLED:
     extra_compile_args.append('-fopenmp')
 
 module = Extension('clustalo',
-                   sources = ['clustalo.c'],
+                   sources = ['clustalo_list.c'],
                    include_dirs=['/usr/include/clustalo', '/usr/local/include/clustalo'],
                    libraries=libraries,
                    extra_compile_args=extra_compile_args)
