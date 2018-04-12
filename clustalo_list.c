@@ -39,7 +39,8 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
         NULL
     };
     if (!PyArg_ParseTupleAndKeywords(args, keywds, "O!|iOOiiii", kwlist,
-            &PyList_Type, &inputList
+            &PyList_Type, &inputList,
+            &seqtype,
             &mbedGuideTree,
             &mbedIteration,
             &numCombinedIterations,
@@ -47,9 +48,6 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
             &maxHMMIterations,
             &numThreads))
         return NULL;
-
-    if (PyObject_Not(inputList))
-        return PyTuple_New();
 
     InitClustalOmega(numThreads);
 
@@ -92,7 +90,7 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
                 *res = NUCLEOTIDE_ANY;
             }
         }
-        AddSeq(&prMSeq, NULL, seq);
+        AddSeq(&prMSeq, PyString_AsString(PyString_FromFormat("%zd", i)), seq);
     }
     // Can't align with only 1 sequence.
     if (prMSeq->nseqs <= 1) {
@@ -114,7 +112,7 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
     PyObject *returnTuple = PyTuple_New(n);
 
     for (i = 0; i < prMSeq->nseqs; i++) {
-		PyTuple_SetItem(returnTuple, i, PyString_FromString(prMSeq->seq[idx]));
+		PyTuple_SetItem(returnTuple, i, PyString_FromString(prMSeq->seq[i]));
     }
     FreeMSeq(&prMSeq);
     return returnTuple;
