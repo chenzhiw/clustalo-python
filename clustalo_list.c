@@ -90,7 +90,9 @@ clustalo_clustalo(PyObject *self, PyObject *args, PyObject *keywds)
                 *res = NUCLEOTIDE_ANY;
             }
         }
-        AddSeq(&prMSeq, PyString_AsString(PyString_FromFormat("%zd", i)), seq);
+        char name[20];
+        sprintf(name, "%zd", i);
+        AddSeq(&prMSeq, name, seq);
     }
     // Can't align with only 1 sequence.
     if (prMSeq->nseqs <= 1) {
